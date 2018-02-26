@@ -4,7 +4,8 @@
   "description": "Heroku app to sync GitHub stars with Pinboard.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage",
+    "watch": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -22,9 +23,11 @@
   },
   "homepage": "https://github.com/wesbaker/github-star-sync#readme",
   "dependencies": {
-    "axios": "^0.17.1",
-    "dotenv": "^4.0.0",
-    "github": "^13.0.1",
+    "dotenv": "^5.0.0",
+    "github": "^13.1.0",
     "node-pinboard": "^1.0.0"
+  },
+  "devDependencies": {
+    "jest": "^22.4.2"
   }
 }

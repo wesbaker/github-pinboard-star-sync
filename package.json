@@ -1,6 +1,6 @@
 {
   "name": "github-star-sync",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Heroku app to sync GitHub stars with Pinboard.",
   "main": "index.js",
   "scripts": {

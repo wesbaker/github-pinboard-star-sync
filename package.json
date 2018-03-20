@@ -24,7 +24,7 @@
   "homepage": "https://github.com/wesbaker/github-star-sync#readme",
   "dependencies": {
     "dotenv": "^5.0.1",
-    "github": "^13.1.0",
+    "github": "^14.0.0",
     "node-pinboard": "^1.0.0"
   },
   "devDependencies": {

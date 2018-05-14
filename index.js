@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const GitHubApi = require("github");
+const GitHubApi = require("@octokit/rest");
 const Pinboard = require("node-pinboard");
 const pinboard = new Pinboard(
   `${process.env.PINBOARD_USERNAME}:${process.env.PINBOARD_API_KEY}`

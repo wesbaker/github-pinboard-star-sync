@@ -3,18 +3,20 @@ require("dotenv").config();
 const Raven = require("raven");
 Raven.config(process.env.SENTRY_DSN).install();
 
-const GitHubApi = require("@octokit/rest");
+const octokit = require("@octokit/rest")();
 const Pinboard = require("node-pinboard");
-const pinboard = new Pinboard(
-  `${process.env.PINBOARD_USERNAME}:${process.env.PINBOARD_API_KEY}`
-);
+const pinboard = new Pinboard(process.env.PINBOARD_TOKEN);
 
-const getStars = () =>
-  new GitHubApi().activity
-    .getStarredReposForUser({
-      username: process.env.GITHUB_USERNAME
-    })
+const getStars = () => {
+  octokit.authenticate({
+    type: "token",
+    token: process.env.GITHUB_TOKEN
+  });
+
+  return octokit.activity
+    .getStarredReposForUser({ username: process.env.GITHUB_USERNAME })
     .then(stars => stars.data);
+};
 
 const sendLink = (url, description) => {
   const link = {

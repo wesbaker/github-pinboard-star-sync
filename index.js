@@ -14,8 +14,7 @@ const getStars = () =>
     .getStarredReposForUser({
       username: process.env.GITHUB_USERNAME
     })
-    .then(stars => stars.data)
-    .catch(error => Raven.captureException(error));
+    .then(stars => stars.data);
 
 const sendLink = (url, description) => {
   const link = {
@@ -37,13 +36,15 @@ const sendLink = (url, description) => {
 };
 
 const sync = () => {
-  getStars().then(stars =>
-    stars.forEach(star => {
-      const { html_url, full_name, description } = star.repo;
-      const title = description ? `${full_name}: ${description}` : full_name;
-      sendLink(html_url, title);
-    })
-  );
+  getStars()
+    .then(stars =>
+      stars.forEach(star => {
+        const { html_url, full_name, description } = star.repo;
+        const title = description ? `${full_name}: ${description}` : full_name;
+        sendLink(html_url, title);
+      })
+    )
+    .catch(error => Raven.captureException(error));
 };
 
 exports.getStars = getStars;

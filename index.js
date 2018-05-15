@@ -1,5 +1,8 @@
 require("dotenv").config();
 
+const Raven = require("raven");
+Raven.config(process.env.SENTRY_DSN).install();
+
 const GitHubApi = require("@octokit/rest");
 const Pinboard = require("node-pinboard");
 const pinboard = new Pinboard(
@@ -11,7 +14,8 @@ const getStars = () =>
     .getStarredReposForUser({
       username: process.env.GITHUB_USERNAME
     })
-    .then(stars => stars.data);
+    .then(stars => stars.data)
+    .catch(error => Raven.captureException(error));
 
 const sendLink = (url, description) => {
   const link = {
@@ -27,7 +31,7 @@ const sendLink = (url, description) => {
   }
 
   pinboard.add(link, (err, res) => {
-    if (err) console.error(err);
+    if (err) Raven.captureException(err);
     console.info(res);
   });
 };

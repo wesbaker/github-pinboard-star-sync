@@ -13,9 +13,7 @@ const getStars = () => {
     token: process.env.GITHUB_TOKEN
   });
 
-  return octokit.activity
-    .getStarredReposForUser({ username: process.env.GITHUB_USERNAME })
-    .then(stars => stars.data);
+  return octokit.activity.getStarredRepos().then(stars => stars.data);
 };
 
 const sendLink = (url, description) => {

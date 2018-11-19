@@ -7,14 +7,10 @@ const octokit = require("@octokit/rest")();
 const Pinboard = require("node-pinboard");
 const pinboard = new Pinboard(process.env.PINBOARD_TOKEN);
 
-const getStars = () => {
-  octokit.authenticate({
-    type: "token",
-    token: process.env.GITHUB_TOKEN
-  });
-
-  return octokit.activity.getStarredRepos().then(stars => stars.data);
-};
+const getStars = () =>
+  octokit.activity
+    .listReposStarredByUser({ username: process.env.GITHUB_USERNAME })
+    .then(stars => stars.data);
 
 const sendLink = (url, description) => {
   const link = {
@@ -35,17 +31,17 @@ const sendLink = (url, description) => {
   });
 };
 
-const sync = () => {
+const sync = () =>
   getStars()
     .then(stars =>
-      stars.forEach(star => {
-        const { html_url, full_name, description } = star.repo;
-        const title = description ? `${full_name}: ${description}` : full_name;
-        sendLink(html_url, title);
-      })
+      stars.forEach(({ html_url, full_name, description }) =>
+        sendLink(
+          html_url,
+          description ? `${full_name}: ${description}` : full_name
+        )
+      )
     )
     .catch(error => Raven.captureException(error));
-};
 
 exports.getStars = getStars;
 exports.sendLink = sendLink;

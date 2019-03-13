@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "check.js",
+      "use": "@now/node"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "GITHUB_USERNAME": "wesbaker",
+    "GITHUB_TOKEN": "@starsync_github_token",
+    "PINBOARD_TOKEN": "@starsync_pinboard_token",
+    "SENTRY_DSN": "@starsync_sentry_dsn"
+  }
+}

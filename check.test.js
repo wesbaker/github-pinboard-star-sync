@@ -1,4 +1,4 @@
-const subject = require("./index");
+const subject = require("./check");
 const Pinboard = require("node-pinboard");
 
 describe("sendLink", function() {

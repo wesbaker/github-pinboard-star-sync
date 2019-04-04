@@ -4,7 +4,7 @@ const Raven = require("raven");
 Raven.config(process.env.SENTRY_DSN).install();
 
 const octokit = require("@octokit/rest")();
-const request = require("request");
+const axios = require("axios");
 
 const getStars = () =>
   octokit.activity
@@ -24,15 +24,13 @@ const sendLink = (url, description) => {
     return;
   }
 
-  request.get(
-    {
-      url: "https://api.pinboard.in/v1/posts/add",
-      json: true,
-      qs: Object.assign({}, link, {
+  return axios
+    .get("https://api.pinboard.in/v1/posts/add", {
+      params: Object.assign({}, link, {
         auth_token: process.env.PINBOARD_TOKEN
       })
-    },
-    (err, res, body) => {
+    })
+    .catch(err => {
       Raven.context(function() {
         Raven.captureBreadcrumb({
           message: "Attempting to send link",
@@ -40,8 +38,7 @@ const sendLink = (url, description) => {
         });
         if (err) Raven.captureException(err);
       });
-    }
-  );
+    });
 };
 
 exports.default = async (req, res) => {

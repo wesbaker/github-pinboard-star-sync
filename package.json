@@ -25,7 +25,7 @@
   "dependencies": {
     "@octokit/rest": "^16.0.0",
     "axios": "^0.18.0",
-    "dotenv": "^7.0.0",
+    "dotenv": "^8.0.0",
     "node-pinboard": "^1.0.0",
     "raven": "^2.6.1"
   },

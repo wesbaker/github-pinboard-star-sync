@@ -47,19 +47,22 @@ const sendLink = (url, description) => {
 exports.default = async (req, res) => {
   const stars = await getStars();
 
-  try {
-    stars.forEach(async ({ html_url, full_name, description }) => {
-      await sendLink(
+  await Promise.all(
+    stars.map(({ html_url, full_name, description }) => {
+      return sendLink(
         html_url,
         description ? `${full_name}: ${description}` : full_name
       );
+    })
+  )
+    .then(() => {
+      res.end(`${stars.length} GitHub stars sent to Pinboard.`);
+    })
+    .catch(e => {
+      Sentry.captureException(e);
+      res.statusCode = 404;
+      res.end(e.message);
     });
-    res.end(`${stars.length} GitHub stars sent to Pinboard.`);
-  } catch (e) {
-    Sentry.captureException(e);
-    res.statusCode = 404;
-    res.end(e.message);
-  }
 };
 
 exports.getStars = getStars;

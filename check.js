@@ -1,7 +1,10 @@
 require("dotenv").config();
 
-const Raven = require("raven");
-Raven.config(process.env.SENTRY_DSN).install();
+const Sentry = require("@sentry/node");
+Sentry.init({
+  environment: process.env.NODE_ENV,
+  dsn: process.env.SENTRY_DSN
+});
 
 const octokit = require("@octokit/rest")();
 const axios = require("axios");
@@ -53,7 +56,7 @@ exports.default = async (req, res) => {
     });
     res.end(`${stars.length} GitHub stars sent to Pinboard.`);
   } catch (e) {
-    Raven.captureException(e);
+    Sentry.captureException(e);
     res.statusCode = 404;
     res.end(e.message);
   }

@@ -24,6 +24,7 @@
   "homepage": "https://github.com/wesbaker/github-star-sync#readme",
   "dependencies": {
     "@octokit/rest": "^16.0.0",
+    "@sentry/node": "^5.5.0",
     "axios": "^0.19.0",
     "dotenv": "^8.0.0",
     "node-pinboard": "^1.0.0",

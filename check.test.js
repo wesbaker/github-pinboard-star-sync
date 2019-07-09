@@ -1,5 +1,4 @@
 const subject = require("./check");
-const Pinboard = require("node-pinboard");
 
 describe("sendLink", function() {
   beforeEach(function() {

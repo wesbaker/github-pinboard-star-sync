@@ -29,6 +29,6 @@
     "node-pinboard": "^1.0.0"
   },
   "devDependencies": {
-    "jest": "24.5.0"
+    "jest": "24.8.0"
   }
 }

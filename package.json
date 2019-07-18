@@ -30,5 +30,8 @@
   },
   "devDependencies": {
     "jest": "24.8.0"
+  },
+  "renovate": {
+    "extends": ["github>wesbaker/renovate-config"]
   }
 }
